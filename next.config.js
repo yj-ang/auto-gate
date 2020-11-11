@@ -3,7 +3,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 module.exports = withPWA({
   pwa: {
-    disable: true,
+    disable: !isProd,
     dest: "public",
   },
 });

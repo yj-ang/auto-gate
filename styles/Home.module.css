@@ -17,9 +17,9 @@
 }
 
 .title {
-  margin: 15px 0;
+  margin: 150px 0 40px 0;
   line-height: 1.15;
-  font-size: 3rem;
+  font: normal normal normal 25px/1.1 Helvetica, sans-serif;
 }
 
 .toggleButton {
@@ -33,7 +33,7 @@
   border: 1px solid #b21522;
   -webkit-border-radius: 100px;
   border-radius: 100px;
-  font: normal normal normal 20px/1.1 "Black Ops One", Helvetica, sans-serif;
+  font: normal normal normal 20px/1.1 Helvetica, sans-serif;
   color: rgba(255, 255, 255, 0.9);
   text-align: center;
   white-space: pre;
@@ -148,4 +148,15 @@
   -moz-transition: all 40ms 0 cubic-bezier(0.42, 0, 0.58, 1);
   -o-transition: all 40ms 0 cubic-bezier(0.42, 0, 0.58, 1);
   transition: all 40ms 0 cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .toggleButton, .toggleButton:focus {
+    box-shadow: 1px 16px 10px 5px rgba(255, 255, 255, 0.2), 0 14px 0 0 #000000,
+    4px 8px 15px 4px rgba(255, 255, 255, 0.4),
+    5px 1px 5px 0 rgba(255, 255, 255, 0.2) inset,
+    5px -4px 5px 0 rgba(255, 255, 255, 0.2) inset,
+    -2px 2px 6px 0 rgba(255, 255, 255, 0.2) inset;
+  }
 }

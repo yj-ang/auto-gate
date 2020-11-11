@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Pusher from "pusher-js";
 import * as PusherTypes from "pusher-js";
@@ -10,6 +11,7 @@ let pusher = null;
 const Home = () => {
   const [status, setStatus] = useState<Status>("Unknown");
   const [channel, setChannel] = useState<PusherTypes.Channel | null>(null);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
 
   useEffect(() => {
     pusher = new Pusher(String(process.env.NEXT_PUBLIC_PUSHER_APP_KEY), {
@@ -18,6 +20,11 @@ const Home = () => {
 
     setChannel(pusher.subscribe("status"));
     checkAlive();
+
+    setIsDarkTheme(
+      window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
   }, []);
 
   useEffect(() => {
@@ -54,18 +61,52 @@ const Home = () => {
     }
   };
 
+  const getStatusColor = (status: Status) => {
+    switch (status) {
+      case "Online" as Status:
+        return "#00c451";
+      case "Offline" as Status:
+        return "#ff4c49";
+      default:
+        return "#ffffff";
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <meta charSet="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="screen-orientation" content="portrait" />
+
+        <title>Auto Gate</title>
+        <link rel="icon" href={isDarkTheme ? "/logo-night.png" : "/logo-light.png"} />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
 
       <main className={styles.main}>
-        <h6 className={styles.title}>Status: {status}</h6>
+        <Image
+          src={isDarkTheme ? "/logo-night.png" : "/logo-light.png"}
+          layout="fixed"
+          width={80}
+          height={80}
+        />
+
+        <h6 className={styles.title}>
+          Status:{" "}
+          <span style={{ color: getStatusColor(status) }}>{status}</span>
+        </h6>
 
         <button className={styles.toggleButton} onClick={() => toggleGate()}>
-          Toggle
+          ON / OFF
         </button>
       </main>
     </div>
