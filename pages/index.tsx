@@ -25,6 +25,19 @@ const Home = () => {
       window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches
     );
+
+    if("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+       navigator.serviceWorker.register("/sw.js").then(
+          function (registration) {
+            console.log("Service Worker registration successful with scope: ", registration.scope);
+          },
+          function (err) {
+            console.log("Service Worker registration failed: ", err);
+          }
+        );
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -86,10 +99,13 @@ const Home = () => {
         />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="screen-orientation" content="portrait" />
+        <meta name="theme-color" content="#000000" />
 
         <title>Auto Gate</title>
+
         <link rel="icon" href={isDarkTheme ? "/logo-night.png" : "/logo-light.png"} />
         <link rel="manifest" href="/manifest.json" />
+        <link href="/icon-192x192.png" rel="apple-touch-icon" />
       </Head>
 
       <main className={styles.main}>
