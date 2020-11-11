@@ -9,8 +9,19 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-export default (req, res) => {
-  res.statusCode = 200;
-  pusher.trigger("status", "alive", new Date());
-  res.json({ status: "ok" });
+export default async (req, res) => {
+  try {
+    if (req.method === "POST") {
+      pusher.trigger("status", "alive", new Date());
+
+      res.statusCode = 200;
+      res.json({ status: "ok" });
+    } else {
+      res.statusCode = 404;
+      res.json({ status: "notok" });
+    }
+  } catch (error) {
+    res.statusCode = 500;
+    res.json({ status: "notok" });
+  }
 };
