@@ -6,11 +6,16 @@ const pusher = new Pusher({
   key: String(process.env.NEXT_PUBLIC_PUSHER_APP_KEY),
   secret: String(process.env.PUSHER_APP_SECRET),
   cluster: String(process.env.NEXT_PUBLIC_PUSHER_CLUSTER),
-  useTLS: true
+  useTLS: true,
 });
 
 export default (req, res) => {
-  res.statusCode = 200
-  pusher.trigger("gate", "toggle", new Date());
-  res.json({ status: 'ok' })
-}
+  if (req.method === "POST") {
+    res.statusCode = 200;
+    pusher.trigger("gate", "toggle", new Date());
+    res.json({ status: "ok" });
+  } else {
+    res.statusCode = 404;
+    res.json({ status: "notok" });
+  }
+};

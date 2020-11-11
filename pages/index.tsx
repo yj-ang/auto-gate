@@ -28,7 +28,9 @@ const Home = () => {
 
   const checkAlive = async () => {
     try {
-      const res = await fetch("/api/check-alive");
+      const res = await fetch("/api/check-alive", {
+        method: "POST",
+      });
 
       if (res.status !== 200) {
         throw new Error("Unexpected error");
@@ -40,7 +42,9 @@ const Home = () => {
 
   const toggleGate = async () => {
     try {
-      const res = await fetch("/api/toggle-gate");
+      const res = await fetch("/api/toggle-gate", {
+        method: "POST",
+      });
 
       if (res.status !== 200) {
         throw new Error("Unexpected error");
