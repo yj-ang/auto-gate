@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import Pusher from "pusher-js";
 import * as PusherTypes from "pusher-js";
 import { useEffect, useState } from "react";
-import { Status } from "./index.d";
+import { Status } from "../types";
 
 let pusher = null;
 
