@@ -122,22 +122,27 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <Image
-          src={isDarkMode ? "/logo-night.png" : "/logo-light.png"}
-          layout="fixed"
-          width={80}
-          height={80}
-          alt="Auto Gate Logo"
-        />
+        <div className={styles.iconWrapper}>
+          <Image
+            src={isDarkMode ? "/logo-night.png" : "/logo-light.png"}
+            layout="fixed"
+            width={80}
+            height={80}
+            alt="Auto Gate Logo"
+          />
+          <div className={styles.logoTxt}>Auto Gate</div>
+        </div>
 
-        <h6 className={styles.title}>
-          Status:{" "}
-          <span style={{ color: getStatusColor(status) }}>{status}</span>
-        </h6>
+        <div className={styles.buttonWrapper}>
+          <div className={styles.title}>
+            Status:{" "}
+            <span style={{ color: getStatusColor(status) }}>{status}</span>
+          </div>
 
-        <button className={styles.toggleButton} onClick={() => toggleGate()}>
-          ON / OFF
-        </button>
+          <button className={styles.toggleButton} onClick={() => toggleGate()}>
+            ON / OFF
+          </button>
+        </div>
       </main>
     </div>
   );

@@ -8,7 +8,8 @@
 }
 
 .main {
-  padding: 5rem 0;
+  width: 100%;
+  padding: 20px 5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -16,9 +17,26 @@
   align-items: center;
 }
 
+.iconWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoTxt {
+  margin-top: 5px;
+  font-family: Helvetica, sans-serif;
+}
+
+.buttonWrapper {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .title {
-  margin: 150px 0 40px 0;
-  line-height: 1.15;
+  margin: 80px 0px 30px 0px;
   font: normal normal normal 25px/1.1 Helvetica, sans-serif;
 }
 
@@ -152,11 +170,33 @@
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
-  .toggleButton, .toggleButton:focus {
+  .toggleButton,
+  .toggleButton:hover {
     box-shadow: 1px 16px 10px 5px rgba(255, 255, 255, 0.2), 0 14px 0 0 #000000,
-    4px 8px 15px 4px rgba(255, 255, 255, 0.4),
-    5px 1px 5px 0 rgba(255, 255, 255, 0.2) inset,
-    5px -4px 5px 0 rgba(255, 255, 255, 0.2) inset,
-    -2px 2px 6px 0 rgba(255, 255, 255, 0.2) inset;
+      4px 8px 15px 4px rgba(255, 255, 255, 0.4),
+      5px 1px 5px 0 rgba(255, 255, 255, 0.2) inset,
+      5px -4px 5px 0 rgba(255, 255, 255, 0.2) inset,
+      -2px 2px 6px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+
+  .toggleButton:active {
+    box-shadow: 1px 5px 8px 4px rgba(0, 0, 0, 0.4), 0 7px 0 0 #000000,
+      1px 2px 1px 1px rgba(0, 0, 0, 0.6),
+      3px 1px 5px 0 rgba(255, 255, 255, 0.2) inset,
+      3px -6px 5px 0 rgba(255, 255, 255, 0.2) inset,
+      -1px 1px 4px 0 rgba(0, 0, 0, 0.2) inset;
+  }
+}
+
+/* Landscape mode  */
+@media (orientation: landscape) and (max-device-width: 900px) {
+  .main {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .title {
+    margin: 0px 0px 20px 0px;
+    font: normal normal normal 25px/1.1 Helvetica, sans-serif;
   }
 }
