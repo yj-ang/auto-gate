@@ -12,7 +12,7 @@ const pusher = new Pusher({
 export default async (req, res) => {
   try {
     if (req.method === "POST") {
-      pusher.trigger("status", "alive", new Date());
+      await pusher.trigger("status", "alive", new Date());
 
       res.statusCode = 200;
       res.json({ status: "ok" });
