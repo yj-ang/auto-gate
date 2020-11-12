@@ -114,6 +114,7 @@ const Home = () => {
           layout="fixed"
           width={80}
           height={80}
+          alt="Auto Gate Logo"
         />
 
         <h6 className={styles.title}>
