@@ -11,7 +11,7 @@ let pusher = null;
 const Home = () => {
   const [status, setStatus] = useState<Status>("Unknown");
   const [channel, setChannel] = useState<PusherTypes.Channel | null>(null);
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
     pusher = new Pusher(String(process.env.NEXT_PUBLIC_PUSHER_APP_KEY), {
@@ -21,7 +21,7 @@ const Home = () => {
     setChannel(pusher.subscribe("status"));
     checkAlive();
 
-    setIsDarkTheme(
+    setIsDarkMode(
       window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches
     );
@@ -81,7 +81,7 @@ const Home = () => {
       case "Offline" as Status:
         return "#ff4c49";
       default:
-        return "#ffffff";
+        return isDarkMode ? "#ffffff" : "#000000";
     }
   };
 
@@ -103,14 +103,14 @@ const Home = () => {
 
         <title>Auto Gate</title>
 
-        <link rel="icon" href={isDarkTheme ? "/logo-night.png" : "/logo-light.png"} />
+        <link rel="icon" href={isDarkMode ? "/logo-night.png" : "/logo-light.png"} />
         <link rel="manifest" href="/manifest.json" />
         <link href="/icon-192x192.png" rel="apple-touch-icon" />
       </Head>
 
       <main className={styles.main}>
         <Image
-          src={isDarkTheme ? "/logo-night.png" : "/logo-light.png"}
+          src={isDarkMode ? "/logo-night.png" : "/logo-light.png"}
           layout="fixed"
           width={80}
           height={80}
