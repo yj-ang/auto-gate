@@ -1,4 +1,4 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { NextApiRequest, NextApiResponse } from "next";
 import Pusher from "pusher";
 
 const pusher = new Pusher({
@@ -9,7 +9,7 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method === "POST") {
       await pusher.trigger("gate", "toggle", new Date());

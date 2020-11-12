@@ -1,44 +1,36 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Pusher from "pusher-js";
-import * as PusherTypes from "pusher-js";
 import { useEffect, useState } from "react";
-import { Status } from "../types";
+import Pusher, * as PusherTypes from "pusher-js";
 
-let pusher = null;
+import styles from "../styles/Home.module.css";
+import { Status } from "../types";
 
 const Home = () => {
   const [status, setStatus] = useState<Status>("Unknown");
   const [channel, setChannel] = useState<PusherTypes.Channel | null>(null);
+  const [pusher, setPusher] = useState<Pusher | null>(null);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
-    pusher = new Pusher(String(process.env.NEXT_PUBLIC_PUSHER_APP_KEY), {
-      cluster: String(process.env.NEXT_PUBLIC_PUSHER_CLUSTER),
-    });
-
-    setChannel(pusher.subscribe("status"));
+    setPusher(
+      new Pusher(String(process.env.NEXT_PUBLIC_PUSHER_APP_KEY), {
+        cluster: String(process.env.NEXT_PUBLIC_PUSHER_CLUSTER),
+      })
+    );
     checkAlive();
-
     setIsDarkMode(
       window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches
     );
-
-    if("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-       navigator.serviceWorker.register("/sw.js").then(
-          function (registration) {
-            console.log("Service Worker registration successful with scope: ", registration.scope);
-          },
-          function (err) {
-            console.log("Service Worker registration failed: ", err);
-          }
-        );
-      });
-    }
+    registerServiceWorker();
   }, []);
+
+  useEffect(() => {
+    if (pusher) {
+      setChannel(pusher.subscribe("status"));
+    }
+  }, [pusher]);
 
   useEffect(() => {
     channel?.bind("online", () => {
@@ -85,6 +77,24 @@ const Home = () => {
     }
   };
 
+  const registerServiceWorker = () => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/sw.js").then(
+          (registration) => {
+            console.log(
+              "Service Worker registration successful with scope: ",
+              registration.scope
+            );
+          },
+          (err) => {
+            console.log("Service Worker registration failed: ", err);
+          }
+        );
+      });
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -103,7 +113,10 @@ const Home = () => {
 
         <title>Auto Gate</title>
 
-        <link rel="icon" href={isDarkMode ? "/logo-night.png" : "/logo-light.png"} />
+        <link
+          rel="icon"
+          href={isDarkMode ? "/logo-night.png" : "/logo-light.png"}
+        />
         <link rel="manifest" href="/manifest.json" />
         <link href="/icon-192x192.png" rel="apple-touch-icon" />
       </Head>
